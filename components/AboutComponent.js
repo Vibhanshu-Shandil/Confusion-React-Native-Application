@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, ScrollView } from 'react-native';
 import { Card, Text, ListItem } from 'react-native-elements';
 import { LEADERS } from '../shared/leaders';
 
@@ -44,6 +44,7 @@ class About extends Component {
     
         return (
             <View>
+                <ScrollView>
                 <History />
                 <Card title="Corporate Leadership">
                     <FlatList 
@@ -52,6 +53,7 @@ class About extends Component {
                         keyExtractor={item => item.id.toString()}
                         />
                 </Card>
+                </ScrollView>
             </View>
         );
     }
