@@ -3,6 +3,7 @@ import { FlatList, View, ScrollView } from 'react-native';
 import { Card, Text, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
 
 const mapStateToProps = state => {
     return {
@@ -42,21 +43,45 @@ class About extends Component {
                         />
             );
         };
-    
-        return (
-            <View>
+
+        if (this.props.leaders.isLoading) {
+            return(
                 <ScrollView>
-                <History />
-                <Card title="Corporate Leadership">
-                    <FlatList 
-                        data={this.props.leaders.leaders}
-                        renderItem={renderLeaders}
-                        keyExtractor={item => item.id.toString()}
-                        />
-                </Card>
+                    <History />
+                    <Card
+                        title='Corporate Leadership'>
+                        <Loading />
+                    </Card>
                 </ScrollView>
-            </View>
-        );
+            );
+        }
+        else if (this.props.leaders.errMess) {
+            return(
+                <ScrollView>
+                    <History />
+                    <Card
+                        title='Corporate Leadership'>
+                        <Text>{this.props.leaders.errMess}</Text>
+                    </Card>
+                </ScrollView>
+            );
+        }
+        else {    
+            return (
+                <View>
+                    <ScrollView>
+                    <History />
+                    <Card title="Corporate Leadership">
+                        <FlatList 
+                            data={this.props.leaders.leaders}
+                            renderItem={renderLeaders}
+                            keyExtractor={item => item.id.toString()}
+                            />
+                    </Card>
+                    </ScrollView>
+                </View>
+            );
+        }
     }
 }
 
