@@ -8,6 +8,7 @@ import Dishdetail from './DishdetailComponent';
 import Home from './HomeComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
+import Reservation from './ReservationComponent';
 import { connect } from 'react-redux';
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 
@@ -142,6 +143,23 @@ class Main extends Component {
       })
     });
 
+    const ReservationNavigator = createStackNavigator({
+      Reservation: { screen: Reservation }
+    }, {
+      navigationOptions: ({ navigation }) => ({
+        headerStyle: {
+            backgroundColor: "#512DA8"
+        },
+        headerTitleStyle: {
+            color: "#fff"            
+        },
+        headerTintColor: "#fff",
+        headerLeft: <Icon name="menu" size={24}
+          iconStyle={{ color: 'white' }} 
+          onPress={ () => navigation.navigate('DrawerToggle') } />    
+      })
+    })
+
     const MainNavigator = createDrawerNavigator({
       Home: 
         { screen: HomeNavigator,
@@ -201,6 +219,21 @@ class Main extends Component {
                 type='font-awesome'            
                 size={22}
                 color={tintColor}
+              />
+            ),
+          }
+        },
+        Reservation:
+        { screen: ReservationNavigator,
+          navigationOptions: {
+            title: 'Reserve Table',
+            drawerLabel: 'Reserve Table',
+            drawerIcon: ({ tintColor, focused }) => (
+              <Icon
+                name='cutlery'
+                type='font-awesome'            
+                size={24}
+                iconStyle={{ color: tintColor }}
               />
             ),
           }
