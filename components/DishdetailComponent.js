@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, FlatList } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
-import { DISHES } from '../shared/dishes';
-import { COMMENTS } from '../shared/comments';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+
+const mapStateToProps = state => {
+    return {
+      dishes: state.dishes,
+      comments: state.comments
+    }
+  }
+
 
 function RenderComments(props) {
     const comments = props.comments;
@@ -34,8 +42,8 @@ function RenderDish(props) {
             return(
                 <Card
                 featuredTitle={dish.name}
-                image={require('./images/uthappizza.png')}>
-                    <Text style={{margin: 10}}>
+                image={{uri: baseUrl + dish.image}}>
+                <Text style={{margin: 10}}>
                         {dish.description}
                     </Text>
                     <Icon raised reverse name={ props.favorite ? 'heart' : 'heart-o' }
@@ -50,13 +58,11 @@ function RenderDish(props) {
         }
 }
 
-class Dishdetail extends Component {
+class DishDetail extends Component {
     
     constructor(props) {
         super(props);
         this.state = {
-            dishes: DISHES,
-            comments: COMMENTS,
             favorites: []
         };
     }
@@ -74,14 +80,15 @@ class Dishdetail extends Component {
         const dishId = this.props.navigation.getParam('dishId', '');
         return(
             <ScrollView>
-                <RenderDish dish={this.state.dishes[+dishId]}
+                <RenderDish dish={this.props.dishes.dishes[+dishId]}
                     favorite={this.state.favorites.some(el => el === dishId)}
-                    onPress={() => this.markFavorite(dishId)} />
-                <RenderComments comments={this.state.comments.filter((comment) => comment.dishId === dishId)} />
+                    onPress={() => this.markFavorite(dishId)} 
+                    />
+                <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
             </ScrollView>
         );
 
     }
 }
 
-export default Dishdetail;
+export default connect(mapStateToProps)(DishDetail);

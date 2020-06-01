@@ -6,13 +6,13 @@ import { comments } from './comments';
 import { promotions } from './promotions';
 import { leaders } from './leaders';
 
-export const configureStore = () => {
+export const ConfigureStore = () => {
     const store = createStore(
         combineReducers({
             dishes,
-            leaders,
             comments,
-            promotions
+            promotions,
+            leaders
         }),
         applyMiddleware(thunk, logger)
     );
