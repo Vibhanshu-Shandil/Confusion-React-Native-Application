@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { Tile } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
@@ -41,7 +41,7 @@ class Menu extends Component {
         else if (this.props.dishes.errMess){
             return(
                 <View>
-                    <Text>{this.props.dishes.errMess}</Text>
+                    <Text>{props.dishes.errMess}</Text>
                 </View>
             );
         }

@@ -51,7 +51,7 @@ class Home extends Component {
         else if (this.props.dishes.errMess){
             return(
                 <View> 
-                    <Text>{props.erreMess}</Text>
+                    <Text>{this.props.dishes.errMess}</Text>
                 </View>
             );
         }
