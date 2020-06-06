@@ -50,6 +50,13 @@ function RenderDish(props) {
     let viewRef;
     const handleViewRef = ref => viewRef = ref;
 
+    const recognizeComment = ({ moveX, moveY, dx, dy}) => {
+        if (dx > 200 )
+            return true;
+        else 
+            return false;
+    }
+
     const recognizeDrag = ({ moveX, moveY, dx, dy}) => {
         if (dx < -200 )
             return true;
@@ -74,6 +81,8 @@ function RenderDish(props) {
                     ],
                     { cancelable: false }
                 );
+            else if(recognizeComment(gestureState))
+                    props.onDragRight();
 
             return true;
         }
@@ -158,6 +167,7 @@ class DishDetail extends Component {
                     favorite={this.props.favorites.some(el => el === dishId)}
                     onPressFavorite={() => this.markFavorite(dishId)} 
                     onPressReview={() => this.toggleModal()}
+                    onDragRight={() => this.toggleModal()}
                     />
                 <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
                 <Modal animationType = {"slide"} transparent = {false}
