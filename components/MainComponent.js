@@ -92,7 +92,7 @@ class Main extends Component {
     );
 
     const LoginNavigator = createStackNavigator({
-      Login: { screen: Login }
+      Login: Login
     }, {
       navigationOptions: ({ navigation }) => ({
         headerLeft: <Icon name="menu" size={24}
