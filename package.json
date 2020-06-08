@@ -1,4 +1,6 @@
 {
+  "name": "confusion",
+  "version": "0.1.0",
   "main": "index.js",
   "scripts": {
     "android": "react-native run-android",

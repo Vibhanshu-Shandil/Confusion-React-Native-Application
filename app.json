@@ -4,7 +4,13 @@
   "expo": {
     "name": "confusion",
     "slug": "confusion",
-    "version": "1.0.0",
+    "version": "1.0.0", 
+    "icon": "./icon.png",
+    "sdkVersion": "37.0.0",
+    "android": {
+      "package": "net.food.confusion.confusion",
+      "versionCode": 1
+    },
     "platforms": [
       "ios",
       "android",
