@@ -11,6 +11,7 @@
     "@react-native-community/netinfo": "^5.9.2",
     "expo": "^37.0.12",
     "expo-asset": "^8.1.5",
+    "expo-calendar": "^8.1.0",
     "expo-camera": "^8.2.0",
     "expo-image-manipulator": "^8.1.0",
     "expo-image-picker": "^8.1.0",

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Picker, Switch, Button, Alert } from 'react-native';
+import { Text, View, StyleSheet, Picker, Switch, Button, Alert, Platform } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import * as Animatable from 'react-native-animatable';
+import * as Calendar from 'expo-calendar';
 
 class Reservation extends Component {
     constructor(props) {
@@ -54,6 +55,53 @@ class Reservation extends Component {
         });
     }
 
+    async obtainCalenderPermission() {
+        let permission = await Calendar.requestCalendarPermissionsAsync();
+        if (permission.status === 'granted') {
+            return true;
+        }
+        return false;
+    }
+
+    async addReservationToCalender(date) {
+        const calendarPermission = this.obtainCalenderPermission;
+        let calendar = null;
+        if (Platform.OS === 'ios') {
+            calendar = await Calendar.getDefaultCalendarAsync();
+          } else {
+            const calendars = await Calendar.getCalendarsAsync();
+            calendar = (calendars) ?
+              (calendars.find(el => el.isPrimary) || calendars[0])
+              : null;
+          }
+  
+          let calendarId = null;
+          if (calendar !== null) {
+              calendarId = calendar.id;
+          } else {
+              calendarId = null;
+          }
+  
+          let start = new Date(Date.parse(date));
+          let end = new Date((Date.parse(date)) + (2*60*60*1000));
+  
+          if (calendarPermission && calendarId !== null) {
+              let event = await Calendar.createEventAsync(calendarId, {
+                  title: 'Con Fusion Table Reservation',
+                  startDate: start,
+                  endDate: end,
+                  timeZone: 'Asia/Hong_Kong',
+                  location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
+              })
+              .then( event => {
+                  console.log('success', event);
+              })
+              .catch( error => {
+                  console.log('failure', error);
+              });
+          }
+    }
+
     render() {
         const date = new Date();
         const handleReservation = () => 
@@ -70,7 +118,8 @@ class Reservation extends Component {
                                 text: 'OK',
                                 onPress: () => {                                    
                                     this.presentLocalNotification(this.state.date);
-                                    this.resetForm();                                    
+                                    this.addReservationToCalender(this.state.date);
+                                    this.resetForm();  
                                 }
                             }
                         ],
